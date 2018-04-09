@@ -1,0 +1,130 @@
+{
+  "project_info": {
+    "project_number": "726507379763",
+    "firebase_url": "https://fir-databaseexample-1178c.firebaseio.com",
+    "project_id": "fir-databaseexample-1178c",
+    "storage_bucket": "fir-databaseexample-1178c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:726507379763:android:758c45600f8c4d04",
+        "android_client_info": {
+          "package_name": "com.recharge.demomap"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "726507379763-kpd3kthh611nniqljo8n5e8hpf648c80.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFzK6r-fPngfqmCtU-NipjudkSrPWgQfg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:726507379763:android:41d736de3f23158d",
+        "android_client_info": {
+          "package_name": "com.trumpcashapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "726507379763-fg791p26ksuo1lmc8t3stlq12nencs62.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.trumpcashapp",
+            "certificate_hash": "d9b8d0482e7473d870fa85de238e7abde0ed1e9f"
+          }
+        },
+        {
+          "client_id": "726507379763-kpd3kthh611nniqljo8n5e8hpf648c80.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFzK6r-fPngfqmCtU-NipjudkSrPWgQfg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "726507379763-kpd3kthh611nniqljo8n5e8hpf648c80.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:726507379763:android:3f5192377659e250",
+        "android_client_info": {
+          "package_name": "net.simplifiedcoding.firebasedatabaseexample"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "726507379763-vpn12jr0tuarak0k97dpaf6m0bqpqunl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "net.simplifiedcoding.firebasedatabaseexample",
+            "certificate_hash": "99b3e73d89cd87a6c545e8f621eb9bb1516aa950"
+          }
+        },
+        {
+          "client_id": "726507379763-kpd3kthh611nniqljo8n5e8hpf648c80.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFzK6r-fPngfqmCtU-NipjudkSrPWgQfg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "726507379763-kpd3kthh611nniqljo8n5e8hpf648c80.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
