@@ -1,6 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="style_color_primary">#2d5d82</color>
+    <color name="style_color_primary_dark">#21425d</color>
+    <color name="style_color_accent">#353e8d</color>
+    <color name="fab_color_pressed">#007787</color>
+    <color name="fab_color_shadow">#44000000</color>
+    <color name="text_like_counter">#2b5a83</color>
+    <color name="paint_color">#dddddd</color>
+    <color name="greydark">#7d7c7c</color>
+
+    <color name="colorAccent">#ff4081</color>
+    <color name="colorPrimaryDark">#757daf</color>
+    <color name="colorPrimary">#ff404a</color>
+
+    <color name="indigo">#860ddf</color>
+    <color name="teal">#167cab</color>
+    <color name="otpblue">#B1D2E4</color>
+    <color name="darkGreen">#06a10d</color>
+    <color name="darkBlueGrey">#455a64</color>
+    <color name="greenish">#2fd3a2</color>
+    <color name="white">#ffffff</color>
+    <color name="windowBackground">#c2e4e8</color>
+    <color name="navigationBarColor">#000000</color>
+
+    <color name="textColorPrimary">#FFFFFF</color>
+    <color name="deepblue">#1f86b9</color>
+
+
+    <color name="list_group_title">#686666</color>
+    <color name="list_item_title">#AAAAAA</color>
+    <color name="unselectedIconColor">#a69595</color>
+    <color name="group_divider_color">#80cbc4</color>
+    <color name="deepishblue">#353e8d</color>
+
+    <color name="lime">#e4eaac</color>
+    <color name="orange">#B84D2C</color>
+    <color name="grey">#65757d</color>
+    <color name="purple">#B39DDB</color>
+    <color name="pink">#F48FB1</color>
+    <color name="lightestgray">#ede6f2</color>
+    <color name="darkgrey">#5a5858</color>
+    <color name="darkorange">#aeadad</color>
+    <color name="darkdeepdray">#574747</color>
+    <color name="deepgreen">#2e695d</color>
+    <color name="lightdeepgreen">#639288</color>
+    <color name="brickred">#e2dddd</color>
+    <color name="frost">#d15b5857</color>
+    <color name="srtcolr">#cedd8b</color>
+    <color name="lightred">#FFF4EBEB</color>
+    <color name="lightestblue">#508699</color>
+    <color name="brickblue">#e138818a</color>
+    <color name="darklightred">#eae3e3</color>
+    <color name="lithestblueish">#92c2c8</color>
+
+
+
+    <color name="gen_black">#000000</color>
+    <color name="gen_white">#FFFFFF</color>
+    <color name="green_light">#43A047</color>
+    <color name="grey_light">#f8e6e6</color>
+
+    <!-- Screens background color-->
+    <color name="bg_screen1">#ff4d40</color>
+
+    <!-- dots inactive colors -->
+    <color name="dot_dark_screen1">#d1395c</color>
+
+    <!-- dots active colors -->
+    <color name="dot_light_screen1">#f98da5</color>
+
+    <!-- Placeholder colors-->
+    <color name="stay_color">#999999</color>
+    <color name="lightgrey">#aaaa</color>
+    <color name="lighdeepgrey">#828282</color>
+    <color name="lightestred">#e3dada</color>
+    <color name="deeppurle">#6623a8</color>
+    <color name="deepred">#af343c</color>
+
+    <array name="array_dot_active">
+        <item>@color/dot_light_screen1</item>
+        <item>@color/dot_light_screen1</item>
+        <item>@color/dot_light_screen1</item>
+        <item>@color/dot_light_screen1</item>
+    </array>
+
+    <array name="array_dot_inactive">
+        <item>@color/dot_dark_screen1</item>
+        <item>@color/dot_dark_screen1</item>
+        <item>@color/dot_dark_screen1</item>
+        <item>@color/dot_dark_screen1</item>
+    </array>
 </resources>

@@ -1,11 +1,15 @@
 package com.recharge.demomap;
 
+import android.app.ProgressDialog;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -42,11 +46,20 @@ import com.google.maps.android.ui.IconGenerator;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Scanner;
 
 //GoogleApiClient.ConnectionCallbacks,GoogleApiClient.OnConnectionFailedListener,   LocationListener
 public class MapShowFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMyLocationClickListener, GoogleMap.OnMyLocationButtonClickListener {
@@ -63,6 +76,8 @@ public class MapShowFragment extends Fragment implements OnMapReadyCallback, Goo
     private static final String STREETVIEW_BUNDLE_KEY = "StreetViewBundleKey";
     private double lat;
     private double longg;
+    private String address1, address2, city, state, country, county, PIN;
+    private static final String LOG_TAG = MapShowFragment.class.getSimpleName();
     ArrayList<LatLng> intentServiceResults=new ArrayList<>();
     private RelativeLayout mLayout;
     private GoogleMap googleMap;
@@ -79,6 +94,8 @@ public class MapShowFragment extends Fragment implements OnMapReadyCallback, Goo
     private StreetViewPanorama mPanorama;
     private StreetViewPanoramaOptions options;
     private Bundle savedInstanceState;
+    private MarkerOptions markerOptions;
+    private ProgressDialog progressDialog;
 
     public MapShowFragment() {
         // Required empty public constructor
@@ -275,22 +292,9 @@ if(intentServiceResults.size()>0){
         SupportMapFragment mapFragment = (SupportMapFragment)
                 this.getChildFragmentManager()
                         .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-        options = new StreetViewPanoramaOptions();
-         final LatLng SYDNEY = new LatLng(-33.87365, 151.20689);
-        options.position(SYDNEY);
-        mStreetViewPanoramaView = new StreetViewPanoramaView(getActivity(), options);
-        getActivity().addContentView(mStreetViewPanoramaView,
-                new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
 
-        // *** IMPORTANT ***
-        // StreetViewPanoramaView requires that the Bundle you pass contain _ONLY_
-        // StreetViewPanoramaView SDK objects or sub-Bundles.
-        Bundle mStreetViewBundle = null;
-        if (savedInstanceState != null) {
-            mStreetViewBundle = savedInstanceState.getBundle(STREETVIEW_BUNDLE_KEY);
-        }
-        mStreetViewPanoramaView.onCreate(mStreetViewBundle);
+        mapFragment.getMapAsync(this);
+
 
     }
 
@@ -318,19 +322,75 @@ if(intentServiceResults.size()>0){
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(final GoogleMap googleMap) {
         this.googleMap = googleMap;
         updateLocationUI();
         googleMap.addMarker(new MarkerOptions()
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.end_green))
                 .title("Start")
                 .position(new LatLng(lat,longg)));
+        // Creating a marker
+         markerOptions = new MarkerOptions();
+        LatLng latLng=new LatLng(19.06121897964199, 72.863322294041);
+        // Setting the position for the marker
+        markerOptions.position(latLng);
 
+        // Setting the title for the marker.
+        // This will be displayed on taping the marker
+        markerOptions.title(latLng.latitude + " : " + latLng.longitude);
+
+        // Clears the previously touched position
+        googleMap.clear();
+
+        // Animating to the touched position
+        googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+
+        // Placing a marker on the touched position
+      Marker marker=  googleMap.addMarker(markerOptions);
+        googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                if (marker.equals(marker))
+                {
+                 setPanoroma(marker.getPosition());
+                }
+                return false;
+            }
+        });
+        googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                markerOptions.position(latLng);
+
+                // Setting the title for the marker.
+                // This will be displayed on taping the marker
+                markerOptions.title(latLng.latitude + " : " + latLng.longitude);
+                googleMap.addMarker(markerOptions);
+                new DownloadRawData().execute(latLng);
+            }
+        });
 // Store a data object with the polyline, used here to indicate an arbitrary type.
 
 
 
         //getDeviceLocation();
+    }
+    public void setPanoroma(LatLng latLng){
+        options = new StreetViewPanoramaOptions();
+        Log.d("Loc", String.valueOf(latLng));
+        options.position(latLng);
+        mStreetViewPanoramaView = new StreetViewPanoramaView(getActivity(), options);
+        getActivity().addContentView(mStreetViewPanoramaView,
+                new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+
+        // *** IMPORTANT ***
+        // StreetViewPanoramaView requires that the Bundle you pass contain _ONLY_
+        // StreetViewPanoramaView SDK objects or sub-Bundles.
+        Bundle mStreetViewBundle = null;
+        if (savedInstanceState != null) {
+            mStreetViewBundle = savedInstanceState.getBundle(STREETVIEW_BUNDLE_KEY);
+        }
+        mStreetViewPanoramaView.onCreate(mStreetViewBundle);
     }
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -361,10 +421,155 @@ if(intentServiceResults.size()>0){
 
     }
 
+    private class DownloadRawData extends AsyncTask<LatLng, Void, ArrayList<String>> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+              progressDialog=new ProgressDialog(getActivity());
+            progressDialog.setMessage("Loading........");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+        }
+
+
+        @Override
+        protected ArrayList<String> doInBackground(LatLng... latLng) {
+            ArrayList<String> strings=retrieveData(latLng[0].latitude,latLng[0].longitude);
+            return strings;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<String> s) {
+            super.onPostExecute(s);
+            if(progressDialog!=null)
+            progressDialog.dismiss();
+            LocationInfoDialog successRechargeDialog=new LocationInfoDialog(getActivity(),s);
+            successRechargeDialog.show();
+            successRechargeDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            successRechargeDialog.setCancelable(false);
+        }
+    }
     @Override
     public boolean onMyLocationButtonClick() {
         return false;
     }
+    private void init() {
+        address1 = "";
+        address2 = "";
+        city = "";
+        state = "";
+        country = "";
+        county = "";
+        PIN = "";
+    }
+    private String createUrl(double latitude, double longitude) throws UnsupportedEncodingException {
+        init();
+        return "https://maps.googleapis.com/maps/api/geocode/json?" + "latlng=" + latitude + "," + longitude + "&key=" + getActivity().getResources().getString(R.string.map_apiid);
+    }
+    private URL buildUrl(double latitude, double longitude) {
 
+        try {
+            Log.w(TAG, "buildUrl: "+createUrl(latitude,longitude));
+            return new URL(createUrl(latitude,longitude));
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            Log.e(LOG_TAG, "can't construct location object");
+            return null;
+        }
+        catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private String getResponseFromHttpUrl(URL url) throws IOException {
+        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+        try {
+            InputStream in = urlConnection.getInputStream();
+            Scanner scanner = new Scanner(in);
+            scanner.useDelimiter("\\A");
+            if (scanner.hasNext()) {
+                return scanner.next();
+            } else {
+                return null;
+            }
+        } finally {
+            urlConnection.disconnect();
+        }
+    }
+
+    public String getAddress1() { return address1; }
+
+    public String getAddress2() { return address2; }
+
+    public String getCity() { return city; }
+
+    public String getState() { return state; }
+
+    public String getCountry() { return country; }
+
+    public String getCounty() { return county; }
+
+    public String getPIN() { return PIN; }
+    private ArrayList<String> retrieveData(double latitude, double longitude) {
+        ArrayList<String> strings=new ArrayList<>();
+        try {
+            String responseFromHttpUrl = getResponseFromHttpUrl(buildUrl(latitude, longitude));
+            JSONObject jsonResponse = new JSONObject(responseFromHttpUrl);
+            String status = jsonResponse.getString("status");
+            if (status.equalsIgnoreCase("OK")) {
+                JSONArray results = jsonResponse.getJSONArray("results");
+                JSONObject zero = results.getJSONObject(0);
+                JSONArray addressComponents = zero.getJSONArray("address_components");
+                String formatadd= zero.getString("formatted_address");
+
+                for (int i = 0; i < addressComponents.length(); i++) {
+                    JSONObject zero2 = addressComponents.getJSONObject(i);
+                    String longName = zero2.getString("long_name");
+                    JSONArray types = zero2.getJSONArray("types");
+                    String type = types.getString(0);
+
+
+                    if (!TextUtils.isEmpty(longName)) {
+                        if (type.equalsIgnoreCase("street_number")) {
+                            address1 = longName + " ";
+
+                        } else if (type.equalsIgnoreCase("route")) {
+                            address1 = address1 + longName;
+                        } else if (type.equalsIgnoreCase("sublocality")) {
+                            address2 = longName;
+                        } else if (type.equalsIgnoreCase("locality")) {
+                            // address2 = address2 + longName + ", ";
+                            city = longName;
+                        } else if (type.equalsIgnoreCase("administrative_area_level_2")) {
+                            county = longName;
+                        } else if (type.equalsIgnoreCase("administrative_area_level_1")) {
+                            state = longName;
+                        } else if (type.equalsIgnoreCase("country")) {
+                            country = longName;
+                        } else if (type.equalsIgnoreCase("postal_code")) {
+                            PIN = longName;
+                        }
+                    }
+                }
+                strings.add(formatadd);
+                strings.add(address1);
+                strings.add(address2);
+                strings.add(city);
+                strings.add(county);
+                strings.add(state);
+                strings.add(country);
+
+                strings.add(PIN);
+
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return  strings;
+    }
 
 }

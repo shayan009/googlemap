@@ -138,13 +138,6 @@ public class MainActivity extends AppCompatActivity
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        Bundle mStreetViewBundle = outState.getBundle(STREETVIEW_BUNDLE_KEY);
-        if (mStreetViewBundle == null) {
-            mStreetViewBundle = new Bundle();
-            outState.putBundle(STREETVIEW_BUNDLE_KEY, mStreetViewBundle);
-        }
-
-        mStreetViewPanoramaView.onSaveInstanceState(mStreetViewBundle);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
