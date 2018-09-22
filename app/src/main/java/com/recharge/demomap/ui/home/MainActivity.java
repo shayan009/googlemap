@@ -1,4 +1,4 @@
-package com.recharge.demomap;
+package com.recharge.demomap.ui.home;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -39,6 +39,9 @@ import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.maps.StreetViewPanoramaOptions;
 import com.google.android.gms.maps.StreetViewPanoramaView;
 import com.google.android.gms.maps.model.LatLng;
+import com.recharge.demomap.FragmentNavigationManager;
+import com.recharge.demomap.IntentServiceResult;
+import com.recharge.demomap.R;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -74,14 +77,7 @@ public class MainActivity extends AppCompatActivity
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+    
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

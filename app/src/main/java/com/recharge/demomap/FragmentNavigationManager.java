@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
-
+import com.recharge.demomap.ui.home.MainActivity;
 
 
 public class FragmentNavigationManager implements NavigationManager {
