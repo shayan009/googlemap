@@ -1,4 +1,4 @@
-package com.recharge.demomap;
+package com.debasish.demomap;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.recharge.demomap", appContext.getPackageName());
+        assertEquals("com.debasish.demomap", appContext.getPackageName());
     }
 }

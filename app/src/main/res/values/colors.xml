@@ -73,9 +73,10 @@
     <color name="stay_color">#999999</color>
     <color name="lightgrey">#aaaa</color>
     <color name="lighdeepgrey">#828282</color>
-    <color name="lightestred">#e3dada</color>
+    <color name="lightestred">#6271cce7</color>
     <color name="deeppurle">#6623a8</color>
     <color name="deepred">#af343c</color>
+    <color name="lightGreen">#a0d29a</color>
 
     <array name="array_dot_active">
         <item>@color/dot_light_screen1</item>

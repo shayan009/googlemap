@@ -1,0 +1,1 @@
+package com.debasish.demomap.google_map;import android.annotation.SuppressLint;import android.location.Address;import io.reactivex.Observable;import io.reactivex.Single;public interface IMapManager {    Single<Boolean> checkLocationSettings();    @SuppressLint("MissingPermission")    Observable<Address> getLatestLocation ();}

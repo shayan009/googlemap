@@ -1,4 +1,4 @@
-package com.recharge.demomap;
+package com.debasish.demomap;
 
 import org.junit.Test;
 
